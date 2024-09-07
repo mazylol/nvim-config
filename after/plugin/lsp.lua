@@ -1,16 +1,16 @@
 local lsp = require('lsp-zero')
 local cmp = require('cmp')
 
-lsp.preset('recommended')
-
-lsp.ensure_installed({
-	'tsserver',
-	'eslint',
-	'rust_analyzer',
-    'gopls',
-    'cmake',
-    'clangd'
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  handlers = {
+    function(server_name)
+      require('lspconfig')[server_name].setup({})
+    end,
+  }
 })
+
+lsp.preset('recommended')
 
 lsp.on_attach(function(client, bufnr)
     lsp.default_keymaps({buffer = bufnr})
